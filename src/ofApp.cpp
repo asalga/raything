@@ -60,9 +60,9 @@ void ofApp::setup() {
     }
 
     /*
-	textureData[y * width *3 + (x*3)] = img[0].getPixels()[
-			pixels[((int(startY) + yTexel) * width * 3) + (x*3)] = c.r;
-	*/
+    textureData[y * width *3 + (x*3)] = img[0].getPixels()[
+    		pixels[((int(startY) + yTexel) * width * 3) + (x*3)] = c.r;
+    */
 }
 
 //--------------------------------------------------------------
@@ -313,7 +313,7 @@ void ofApp::draw() {
         /*for(int xWidth = 0; xWidth < width; xWidth++){
             for(int yHeight = 0; yHeight < height; yHeight++){
                 //screenBuffer[xWidth* yHeight] = 255;
-				//screenBuffer[xWidth][yHeight] = ;
+        		//screenBuffer[xWidth][yHeight] = ;
             }
         }*/
 
@@ -324,12 +324,12 @@ void ofApp::draw() {
         for(int yTexel = 0; yTexel < lineHeight; yTexel++) {
             ofColor c = img[worldMap[worldIndexX][worldIndexY] -1].getColor(t * img[0].getWidth(),
 
-			int(yTexel/(float)lineHeight * (img[0].getHeight()-1)) );
+                        int(yTexel/(float)lineHeight * (img[0].getHeight()-1)) );
 
             /*
-				getColor(t * img[0].getWidth(),
-						int(yTexel/(float)lineHeight * (img[0].getHeight()-1)) );
-			*/
+            	getColor(t * img[0].getWidth(),
+            			int(yTexel/(float)lineHeight * (img[0].getHeight()-1)) );
+            */
 
             int ximg = t * img[0].getWidth();
             int yimg = int(yTexel/(float)lineHeight * (img[0].getHeight()-1)) ;
@@ -352,26 +352,26 @@ void ofApp::draw() {
 
             // ofColor c = texData[ yimg * 64 *3 + (ximg*3)];
 
-			// ofColor c = textureData[int(yTexel/(float)lineHeight * (img[0].getHeight()-1)) + t*img[0].getWidth()];
+            // ofColor c = textureData[int(yTexel/(float)lineHeight * (img[0].getHeight()-1)) + t*img[0].getWidth()];
 
             pixels[((int(startY) + yTexel) * width * 3) + (x*3)] = c.r;
             pixels[((int(startY) + yTexel) * width * 3) + (x*3) +1] = c.g;
             pixels[((int(startY) + yTexel) * width * 3) + (x*3) +2] = c.b;
-			// pixels[(yTexel * width * 3) + (x*3) + 1] = c.g;
+            // pixels[(yTexel * width * 3) + (x*3) + 1] = c.g;
             // pixels[(yTexel * width * 3) + (x*3) + 2] = c.b;
 
-			// pixels[yTexel+ 3 + x+1] = c.g;
+            // pixels[yTexel+ 3 + x+1] = c.g;
             // pixels[yTexel+ (3 + x+2] = c.b;
 
             // img1.setColor(x, int(startY) + yTexel, c);
 
-			/*if(c == lastColor){
+            /*if(c == lastColor){
                 lastPosition = yTexel;
                 ofLine(x, yTexel, x, yTexel);
               }
               else{
                 ofSetColor(c);
-				ofRect(x, startY + yTexel, 1, 1);
+            	ofRect(x, startY + yTexel, 1, 1);
                lastColor = c;
             }*/
             //c = sideHit == 0 ? c/2.0f : c;
@@ -390,8 +390,8 @@ void ofApp::draw() {
         // Used for solid colors
         //ofLine(x, startY, x, startY + lineHeight);
     }
-    
-	ofSetColor(255,255,255);
+
+    ofSetColor(255,255,255);
     img1.setFromPixels(pixels, width, height, OF_IMAGE_COLOR);
     img1.draw(0,0);
 }

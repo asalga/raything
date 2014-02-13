@@ -2,7 +2,8 @@
 #include "ofApp.h"
 
 
-int main() {
+int main()
+{
     ofSetCurrentRenderer(ofGLProgrammableRenderer::TYPE);
 
     ofSetupOpenGL(640, 480, OF_WINDOW);

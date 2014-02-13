@@ -2,21 +2,17 @@
 
 // <3
 
-ofImage* img;
-
-unsigned char* textureData;
-unsigned char* textureData2;
-unsigned char* textureData3;
-
-
-//--------------------------------------------------------------
-void ofApp::setup() {
+/*
+ */
+void ofApp::setup()
+{
     pos.set(2, 2);
     FOV = 60;
     rot = PI;
 
     keys = new bool[512];
-    for(int i = 0; i < 512; i++) {
+    for(int i = 0; i < 512; i++)
+    {
         keys[i] = false;
     }
 
@@ -30,33 +26,36 @@ void ofApp::setup() {
 
     pixels = new unsigned char[width * height * 3];
 
-    img1.allocate(width, height, OF_IMAGE_COLOR);
+    //img1.allocate(width, height, OF_IMAGE_COLOR);
 
-    img = new ofImage[5];
-    img[0].allocate(64, 64, OF_IMAGE_COLOR);
+    images = new ofImage[5];
+    // img[0].allocate(64, 64, OF_IMAGE_COLOR);
     // img[1].allocate(64, 64, OF_IMAGE_COLOR);
     // img[2].allocate(64, 64, OF_IMAGE_COLOR);
 
-    img[0].loadImage("bricks.gif");
-    img[1].loadImage("bricks1.png");
-    img[2].loadImage("wall_plain.gif");
-    img[3].loadImage("bricks1.gif");
-    img[4].loadImage("bricks.gif");
+    images[0].loadImage("bricks.gif");
+    images[1].loadImage("bricks1.png");
+    images[2].loadImage("wall_plain.gif");
+    images[3].loadImage("bricks1.gif");
+    images[4].loadImage("bricks.gif");
 
     textureData =  new unsigned char[64 * 64 * 3];
     textureData2 = new unsigned char[64 * 64 * 3];
     textureData3 = new unsigned char[64 * 64 * 3];
 
-    for(int c = 0; c < 64 * 64 * 3; c++) {
-        textureData[c] = img[0].getPixels()[c];
+    for(int c = 0; c < 64 * 64 * 3; c++)
+    {
+        textureData[c] = images[0].getPixels()[c];
     }
 
-    for(int c = 0; c < 64 * 64 * 3; c++) {
-        textureData2[c] = img[1].getPixels()[c];
+    for(int c = 0; c < 64 * 64 * 3; c++)
+    {
+        textureData2[c] = images[1].getPixels()[c];
     }
 
-    for(int c = 0; c < 64 * 64 * 3; c++) {
-        textureData3[c] = img[2].getPixels()[c];
+    for(int c = 0; c < 64 * 64 * 3; c++)
+    {
+        textureData3[c] = images[2].getPixels()[c];
     }
 
     /*
@@ -66,21 +65,26 @@ void ofApp::setup() {
 }
 
 //--------------------------------------------------------------
-void ofApp::update() {
+void ofApp::update()
+{
 
     float speed = 0.0f;
 
-    if(keys[OF_KEY_UP] == true) {
+    if(keys[OF_KEY_UP] == true)
+    {
         speed = 0.1f;
     }
-    if(keys[OF_KEY_DOWN] == true) {
+    if(keys[OF_KEY_DOWN] == true)
+    {
         speed = -0.1f;
     }
 
-    if(keys[OF_KEY_RIGHT] == true) {
+    if(keys[OF_KEY_RIGHT] == true)
+    {
         rot += 0.051f;
     }
-    if(keys[OF_KEY_LEFT] == true) {
+    if(keys[OF_KEY_LEFT] == true)
+    {
         rot -= 0.051f;
     }
 
@@ -94,7 +98,8 @@ void ofApp::update() {
 }
 
 //--------------------------------------------------------------
-void ofApp::draw() {
+void ofApp::draw()
+{
 
     printf("fps %f\n", ofGetFrameRate());
 
@@ -109,14 +114,16 @@ void ofApp::draw() {
     ofVec2f rayDir;
 
 
-    for(int c = 0; c < width * height * 3; c++) {
+    for(int c = 0; c < width * height * 3; c++)
+    {
         pixels[c] = 0;
     }
 
 
     unsigned long long timing = ofGetElapsedTimeMillis();
 
-    for(int x = 0; x < width; x++) {
+    for(int x = 0; x < width; x++)
+    {
 
         // Map screen coordinates [0 to width-1] to [-1 to 1]
         float currCamScale = (2.0f * x / float(width)) - 1.0f;
@@ -184,41 +191,50 @@ void ofApp::draw() {
          magToXedge = (0 + 1 - 0.2) * magBetweenXedges
          = 0.8 * magBetweenXedges
          */
-        if(rayDir.x > 0) {
+        if(rayDir.x > 0)
+        {
             magToXedge = (worldIndexX + 1.0 - pos.x) * magBetweenXEdges;
             dirStepX = 1;
         }
-        else {
+        else
+        {
             magToXedge = (pos.x - worldIndexX) * magBetweenXEdges;
             dirStepX = -1;
         }
 
-        if(rayDir.y > 0) {
+        if(rayDir.y > 0)
+        {
             magToYedge = (worldIndexY + 1.0 - pos.y) * magBetweenYEdges;
             dirStepY = 1;
         }
-        else {
+        else
+        {
             magToYedge = (pos.y - worldIndexY) * magBetweenYEdges;
             dirStepY = -1;
         }
 
         int sideHit;
 
-        do {
-            if(magToXedge < magToYedge) {
+        do
+        {
+            if(magToXedge < magToYedge)
+            {
                 magToXedge += magBetweenXEdges;
                 worldIndexX += dirStepX;
                 sideHit = 0;
             }
-            else {
+            else
+            {
                 magToYedge += magBetweenYEdges;
                 worldIndexY += dirStepY;
                 sideHit = 1;
             }
-        } while(worldMap[worldIndexX][worldIndexY] == 0);
+        }
+        while(worldMap[worldIndexX][worldIndexY] == 0);
 
         ofColor wallColor;
-        switch(worldMap[worldIndexX][worldIndexY]) {
+        switch(worldMap[worldIndexX][worldIndexY])
+        {
         case 1:
             wallColor = ofColor(255,255,255);
             break;
@@ -243,16 +259,19 @@ void ofApp::draw() {
         float wallDist;
 
         // Distortion Correction
-        if(sideHit == 0) {
+        if(sideHit == 0)
+        {
             wallDist = fabs((worldIndexX - pos.x + (1.0 - dirStepX) / 2.0) / rayDir.x);
         }
-        else {
+        else
+        {
             wallDist = fabs((worldIndexY - pos.y + (1.0 - dirStepY) / 2.0) / rayDir.y);
         }
         //printf("wall dist: %f\n", wallDist);
 
         float t;
-        if(sideHit == 0) {
+        if(sideHit == 0)
+        {
             //float fullAmt = pos.x + worldX;
             //float texCoordx = fullAmt - (pos.x + worldX);
 
@@ -264,7 +283,8 @@ void ofApp::draw() {
             t = pos.y + ((worldIndexX - pos.x + (1.0f - dirStepX) / 2.0) / rayDir.x) * rayDir.y;
             t = t - int(t);
         }
-        else {
+        else
+        {
             //float fullAmt = pos.x + worldX;
             //float texCoordx = fullAmt - (pos.x + worldX);
 
@@ -321,32 +341,35 @@ void ofApp::draw() {
         // tex.loadData(screenBuffer, width, height, GL_RGB8);
 
 
-        for(int yTexel = 0; yTexel < lineHeight; yTexel++) {
-            ofColor c = img[worldMap[worldIndexX][worldIndexY] -1].getColor(t * img[0].getWidth(),
+        for(int yTexel = 0; yTexel < lineHeight; yTexel++)
+        {
+            ofColor c = images[worldMap[worldIndexX][worldIndexY] -1].getColor(t * images[0].getWidth(),
 
-                        int(yTexel/(float)lineHeight * (img[0].getHeight()-1)) );
+                        int(yTexel/(float)lineHeight * (images[0].getHeight()-1)) );
 
             /*
             	getColor(t * img[0].getWidth(),
             			int(yTexel/(float)lineHeight * (img[0].getHeight()-1)) );
             */
 
-            int ximg = t * img[0].getWidth();
-            int yimg = int(yTexel/(float)lineHeight * (img[0].getHeight()-1)) ;
+            int ximg = t * images[0].getWidth();
+            int yimg = int(yTexel/(float)lineHeight * (images[0].getHeight()-1)) ;
 
             unsigned char* texData;
 
-            switch(worldMap[worldIndexX][worldIndexY] -1) {
+            switch(worldMap[worldIndexX][worldIndexY] -1)
+            {
             case 1:
                 texData = textureData;
                 break;
             case 2:
                 texData = textureData2;
                 break;
-            case 4:
-            default:
             case 3:
+            case 4:
                 texData = textureData3;
+                break;
+            default:
                 break;
             }
 
@@ -396,15 +419,18 @@ void ofApp::draw() {
     img1.draw(0,0);
 }
 
-ofApp::~ofApp() {
+ofApp::~ofApp()
+{
 }
 
 //--------------------------------------------------------------
-void ofApp::keyPressed(int key) {
+void ofApp::keyPressed(int key)
+{
     keys[key] = true;
 }
 
 //--------------------------------------------------------------
-void ofApp::keyReleased(int key) {
+void ofApp::keyReleased(int key)
+{
     keys[key] = false;
 }

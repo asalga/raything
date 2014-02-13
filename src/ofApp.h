@@ -2,7 +2,8 @@
 
 #include "ofMain.h"
 
-class ofApp : public ofBaseApp {
+class ofApp : public ofBaseApp
+{
 
 private:
 
@@ -17,13 +18,20 @@ private:
     ofTexture tex;
     unsigned char* pixels;
 
+    ofImage* images;
+
+    unsigned char* textureData;
+    unsigned char* textureData2;
+    unsigned char* textureData3;
+
     int width;
     int height;
     ofImage img1;
 
     unsigned char* screenBuffer;
 
-    int worldMap[15][24] = {
+    int worldMap[15][24] =
+    {
         {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
         {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
         {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},

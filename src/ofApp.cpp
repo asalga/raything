@@ -3,14 +3,18 @@
 // <3
 
 // 1 -fix getColor perf issue (thing is way too slow)
-// 2 -
+// 2 - try reallocating img1 per frame
 // 3 -
 // 4 -
 // 5 -
 
 
 /*
- */
+ ======================================================================
+ setup()
+ 
+ load images, set initial player pos and direction
+ ====================================================================== */
 void ofApp::setup()
 {
 	pos.set(2, 2);
@@ -34,6 +38,8 @@ void ofApp::setup()
 
 	colorBuffer = new unsigned char[width * height * 3];
 
+	
+	
 	images = new ofImage[5];
 	images[0].loadImage("bricks.gif");
 	images[1].loadImage("bricks1.png");
@@ -51,6 +57,10 @@ void ofApp::setup()
 		textureData2[c] = images[1].getPixels()[c];
 		textureData3[c] = images[2].getPixels()[c];
 	}
+}
+
+ofApp::ofApp(){
+	
 }
 
 //--------------------------------------------------------------
@@ -113,7 +123,6 @@ void ofApp::draw()
 	// A ray is cast for each 'column' of the screen
 	for(int x = 0; x < width; x++)
 	{
-
 		// Map screen coordinates [0 to width-1] to [-1 to 1]
 		float currCamScale = (2.0f * x / float(width)) - 1.0f;
 
@@ -240,9 +249,9 @@ void ofApp::draw()
 			break;
 		}
 
-		// Basic lighting
-		wallColor = sideHit == 0 ? wallColor : wallColor/2.0f;
-		//ofSetColor(wallColor);
+		// Basic lighting - Need this if using textures?
+		// wallColor = sideHit == 0 ? wallColor : wallColor/2.0f;
+		// ofSetColor(wallColor);
 
 		float wallDist;
 
@@ -286,31 +295,19 @@ void ofApp::draw()
 			// col = img.getColor(t * img.getWidth(), 0);
 		}
 
-
-		/*
-		 If ray was 1 unit from the wall, we draw a line that fills the entire height length of the screen.
-
-		 To provide a proper FPS feel, we center the vertical lines in screen space along Y.
-
-		 To calculate how long the vertical line needs to be on the screen, we divide the viewport
-		 height by the distance from the wall. So if the wall was 1 unit from the player, it will fill
-		 up the entire vertical slide.
-
-		 At this point we need to center our line height in our viewport line. Draw two vertical
-		 lines down, the smaller one centered next to the larger one. To get the position of top of the smaller one
-		 relative to the larger one, you just have to divide both lines halfway horizontally then subtract from that
-		 the half that remained from the smaller line. This gives us the starting point for the line we have to
-		 draw.
-		 */
-
+		// The farther away the wall sliver is, the smaller it will be faking foreshortening.
+		// If the ray was 1 unit from the wall, the line would fill the entire height length of the screen.
 		float lineHeight = height/wallDist;
 
 		float lineHeightClamped = lineHeight;
 		lineHeightClamped = CLAMP(lineHeightClamped, 0, height);
 
+		// TODO: comment
 		float yOffset = (lineHeight - height)/2.0;
 		yOffset = CLAMP(yOffset, 0, yOffset);
 
+		// Must center the slivers for proper FPS feel. So find
+		// out where to start drawing in the colorBuffer.
 		float startY = height/2.0 - lineHeight/2.0;
 		startY = CLAMP(startY, 0, startY);
 
@@ -318,7 +315,7 @@ void ofApp::draw()
 		for(int yTexel = 0; yTexel < lineHeightClamped; yTexel++)
 		{
 			ofColor c = images[worldMap[worldIndexX][worldIndexY] -1].
-							getColor(t * 64, int((yTexel+yOffset)/lineHeight * (64-1)) );
+									getColor(t * 64, int((yTexel+yOffset)/lineHeight * (64-1)) );
 
 			int ximg = t * 64;
 			int yimg = int(yTexel/(float)lineHeight * (64-1)) ;

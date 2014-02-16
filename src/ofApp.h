@@ -7,34 +7,45 @@
 class ofApp : public ofBaseApp
 {
 
+public:
+				ofApp();
+	virtual		~ofApp();
+
+	void		setup();
+	void		update();
+	void		draw();
+
+	void		keyPressed(int key);
+	void		keyReleased(int key);
+
+
+
 private:
+	bool*			keys;
 
-	bool* keys;
+	ofVec2f			pos;
+	ofVec2f			right;
+	ofVec2f			dir;
+	float			FOV;
+	float			rot;
 
-	ofVec2f pos;
-	ofVec2f right;
-	ofVec2f dir;
-	float FOV;
-	float rot;
+	ofTexture		tex;
 
-	ofTexture tex;
+	unsigned char*	colorBuffer;
 
-	// we write to this every frame
-	unsigned char* colorBuffer;
+	ofImage*		images;
 
-	ofImage* images;
+	unsigned char*	textureData;
+	unsigned char*	textureData2;
+	unsigned char*	textureData3;
 
-	unsigned char* textureData;
-	unsigned char* textureData2;
-	unsigned char* textureData3;
+	int				width;
+	int				height;
+	ofImage			img1;
 
-	int width;
-	int height;
-	ofImage img1;
+	bool			useTextures;
 
-	bool useTextures;
-
-	unsigned char* screenBuffer;
+	unsigned char*	screenBuffer;
 
 	int worldMap[15][24] =
 	{
@@ -54,14 +65,4 @@ private:
 		{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
 		{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 	};
-
-public:
-	void setup();
-	void update();
-	void draw();
-
-	void keyPressed(int key);
-	void keyReleased(int key);
-
-	virtual ~ofApp();
 };

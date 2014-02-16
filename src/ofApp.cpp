@@ -17,6 +17,9 @@
  ====================================================================== */
 void ofApp::setup()
 {
+	width = ofGetWidth();
+	height = ofGetHeight();
+	
 	pos.set(2, 2);
 	FOV = 60;
 	rot = PI;
@@ -32,9 +35,6 @@ void ofApp::setup()
 	tex = ofTexture();
 	tex.allocate(width, height, GL_RGB8);
 	screenBuffer = new unsigned char[width * height * 8];
-
-	width = ofGetWidth();
-	height = ofGetHeight();
 
 	colorBuffer = new unsigned char[width * height * 3];
 
@@ -101,6 +101,9 @@ void ofApp::draw()
 {
 	printf("fps %f\n", ofGetFrameRate());
 
+	
+	
+	
 	// Blue sky, unused right now with our colorBuffer
 	//ofSetColor(64, 128, 255);
 	//ofRect(0, 0, width, height/2);
